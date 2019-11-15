@@ -7,11 +7,13 @@ FLAGS = -Wall -g
 all: mymaths mymathd mains maind
 mains: $(OBJECTS_MAIN) mymaths
 	$(CC) $(FLAGS) -o mains $(OBJECTS_MAIN) libmyMath.a
-maind: $(OBJECTS_MAIN)
+maind: $(OBJECTS_MAIN) mymathd
 	$(CC) $(FLAGS) -o maind $(OBJECTS_MAIN) ./libmyMath.so
-mymathd: $(OBJECTS_LIB)
+mymaths: libmyMath.a
+mymathd: libmyMath.so 
+libmyMath.so: $(OBJECTS_LIB)
 	$(CC) -shared -o libmyMath.so $(OBJECTS_LIB)
-mymaths: $(OBJECTS_LIB)
+libmyMath.a: $(OBJECTS_LIB)
 	$(AR) -rcs libmyMath.a $(OBJECTS_LIB)
 power.o: power.c myMath.h
 	$(CC) $(FLAGS) -fPIC -c power.c
